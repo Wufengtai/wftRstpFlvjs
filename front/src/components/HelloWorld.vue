@@ -9,8 +9,9 @@ export default {
     data () {
         return {
           id: "1",
-          rtsp: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov",
-            player: null
+        //   rtsp: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov",
+        rtsp: "rtsp://admin:Hyt123456@192.168.111.14:554/Streaming/Channels/102?transportmode=unicast&profile=Profile_1",
+        player: null
         }
     },
     mounted () {
@@ -34,7 +35,7 @@ export default {
             // if (video) {
             //     this.player = flvjs.createPlayer({
             //         type: "flv",
-            //         url: `/static/test.flv`
+            //         url: `static/test.flv`
             //     });
             //     this.player.attachMediaElement(video);
             //     try {
@@ -47,7 +48,7 @@ export default {
         }
     },
     beforeDestroy () {
-        this.player.destory();
+        //this.player.destory();
     }
 }
 </script>
