@@ -1,3 +1,4 @@
+!!!!!!!!!!!资料来源于https://github.com/LorinHan/flvjs_test
 ### 实现摄像头的直播功能其实有许多方案，像是安装vlc插件、rtsp转rtmp然后使用videojs通过flash播放rtmp，以及hls .m3u8等方式
 ### 然而现今的浏览器对于vlc插件几乎都不再支持了，flash在2020年也将被chrome停止支持，而.m3u8的方案用来做直播的话似乎延迟很高
 ### 经过一番查找，最终决定使用B站（bilibili）开源的flvjs作为解决方案，其原理是后端用ffmpeg将rtsp视频流转换为flv，然后通过websocket传输flv视频流，然后前端通过websocket获取到视频流后，使用flvjs对视频流再一次处理并进行播放，这是一套无插件无flash免费的视频直播解决方案。
