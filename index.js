@@ -37,14 +37,30 @@ function rtspRequestHandle(ws, req) {
                 console.log(data)
              // 摄像机在线处理
             })
-            .on("error", function (err) {
-                console.log(url, "An error occured: ", err.message);
+            .on('stderr', function (stderrLine) {
+                console.log('Stderr output: ' + stderrLine);
             })
-            .on("end", function () {
+            .on("error", function (err, stdout, stderr) {
+                console.log(url, "An error occured: ", err.message);
+                console.log(url, "stdout: ", stdout);
+                console.log(url, "stderr: ", stderr);
+            })
+            .on("end", function (stdout, stderr) {
                 console.log(url, "Stream end!");
              // 摄像机断线的处理
             })
-            .outputFormat("flv").videoCodec("copy").noAudio().pipe(stream);
+            .outputFormat("flv").videoCodec('libx264').audioCodec("copy").pipe(stream);
+            
+        // ffmpeg(url) 
+        // // .videoCodec('copy')
+        // .audioCodec('copy')
+        // .on('error', function (err) {
+        //     console.log('An error occurred: ' + err.message);
+        // })
+        // .on('end', function () {
+        //     console.log('Processing finished!');
+        // })
+        // .save('front/static/outtest.flv');
     } catch (error) {
         console.log(error);
     }
