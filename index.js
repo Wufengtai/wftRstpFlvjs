@@ -28,7 +28,8 @@ function rtspRequestHandle(ws, req) {
     console.log("rtsp params:", req.params);
     try {
         ffmpeg(url)
-            .addInputOption("-rtsp_transport", "tcp", "-buffer_size", "102400")  // 这里可以添加一些 RTSP 优化的参数
+            .addInputOption("-rtsp_transport", "tcp", "-buffer_size", "102400", "-fflags", "nobuffer")  // 这里可以添加一些 RTSP 优化的参数
+            .addOutputOption("-fflags", "nobuffer")
             .on("start", function () {
                 console.log(url, "Stream started.");
             })
@@ -38,18 +39,22 @@ function rtspRequestHandle(ws, req) {
              // 摄像机在线处理
             })
             .on('stderr', function (stderrLine) {
-                console.log('Stderr output: ' + stderrLine);
+                //console.log('Stderr output: ' + stderrLine);
+            })
+            //转码进度信息
+            .on('progress', function(progress) {
+                console.log('Processing: ' + JSON.stringify(progress))
             })
             .on("error", function (err, stdout, stderr) {
                 console.log(url, "An error occured: ", err.message);
-                console.log(url, "stdout: ", stdout);
-                console.log(url, "stderr: ", stderr);
+                //console.log(url, "stdout: ", stdout);
+                //console.log(url, "stderr: ", stderr);
             })
             .on("end", function (stdout, stderr) {
                 console.log(url, "Stream end!");
              // 摄像机断线的处理
             })
-            .outputFormat("flv").videoCodec('libx264').audioCodec("copy").pipe(stream);
+            .outputFormat("flv").videoCodec('libx264').noAudio().pipe(stream);
             
         // ffmpeg(url) 
         // // .videoCodec('copy')
